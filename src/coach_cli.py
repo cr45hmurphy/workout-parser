@@ -13,7 +13,7 @@ from src.settings import get_default_editor, get_stored_credentials, clear_store
 from src.workspace_manager import workspace_selector, get_workspace_info, logout_current_workspace, ensure_workspace_directories
 
 # Import our shared functions
-from src.api_client import get_access_token, get_clients, clear_screen, get_workout_history, get_workout_history_headless, load_exercise_map, update_exercise_list
+from src.api_client import get_access_token, get_clients, clear_screen, get_workout_history, get_workout_history_headless, load_exercise_map, update_exercise_list, update_exercise_group_list
 from src.directory_migration import get_client_dir, get_shared_dir
 # Import display utilities for bundled app compatibility
 from src.display_utils import safe_input
@@ -522,6 +522,7 @@ def show_tool_menu(token, user_id, client, exercise_map):
         console.print("  [bold]c.[/bold] Clean Up Directory")
         console.print("  [bold]r.[/bold] Force Refresh Workout History")
         console.print("  [bold]u.[/bold] Update Exercise List")
+        console.print("  [bold]g.[/bold] Update Exercise Group List")
         console.print("\n  [bold]q.[/bold] Go back to client list")
 
         choice = console.input("\n> ").lower()
@@ -558,6 +559,9 @@ def show_tool_menu(token, user_id, client, exercise_map):
                 exercise_map = load_exercise_map()
                 if not exercise_map:
                     sys.exit("Failed to reload exercise list.")
+            console.input("Press Enter to continue.")
+        elif choice == 'g':
+            update_exercise_group_list(token)
             console.input("Press Enter to continue.")
         elif choice == 'q':
             break
